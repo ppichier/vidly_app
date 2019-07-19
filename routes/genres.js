@@ -1,4 +1,5 @@
 // const mongoose = require("mongoose");
+// const asyncMiddleware = require("../middleware/async"); -> if require("express-async-errors") do not work (index.js)
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const { Genre, validate } = require("../models/genre");
