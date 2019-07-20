@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 function validateGenre(course) {
   const schema = {
     name: Joi.string()
-      .min(3)
+      .min(5)
+      .max(50)
       .required()
   };
   return Joi.validate(course, schema);

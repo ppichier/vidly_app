@@ -1,9 +1,11 @@
 // const mongoose = require("mongoose");
 // const asyncMiddleware = require("../middleware/async"); -> if require("express-async-errors") do not work (index.js)
+const validateObjectId = require("../middleware/validateObjectId");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const { Genre, validate } = require("../models/genre");
 const express = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -11,14 +13,18 @@ router.get("/", async (req, res) => {
   res.send(genres);
 });
 
-router.get("/:id", async (req, res) => {
-  try {
+router.get("/:id", validateObjectId, async (req, res) => {
+  const genre = await Genre.findById(req.params.id);
+  if (!genre)
+    return res.status(404).send("The course with the given id was not found");
+  res.send(genre);
+  /* try {
     const genre = await Genre.findById(req.params.id);
     res.send(genre);
   } catch (err) {
     console.error(err.message);
     return res.status(404).send("The course with the given id was not found");
-  }
+  } */
 });
 
 router.post("/", auth, async (req, res) => {
